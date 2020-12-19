@@ -1,0 +1,219 @@
+Organizations:
+  - &OrdererOrg
+    Name: OrdererOrg
+    ID: OrdererMSP
+    MSPDir: ../organizations/ordererOrganizations/supplychain.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrdererMSP.admin')"
+    OrdererEndpoints:
+      - orderer.supplychain.com:7050
+      - orderer2.supplychain.com:8050
+      - orderer3.supplychain.com:9050
+
+  - &IndonesianFarmOrg1
+      Name: IndonesianFarmOrg1MSP
+      ID: IndonesianFarmOrg1MSP
+      MSPDir: ../organizations/peerOrganizations/indonesianfarmorg1.supplychain.com/msp
+      Policies:
+        Readers:
+          Type: Signature
+          Rule: "OR('IndonesianFarmOrg1MSP.admin', 'IndonesianFarmOrg1MSP.peer', 'IndonesianFarmOrg1MSP.client')"
+        Writers:
+          Type: Signature
+          Rule: "OR('IndonesianFarmOrg1MSP.admin', 'IndonesianFarmOrg1MSP.client')"
+        Admins:
+          Type: Signature
+          Rule: "OR('IndonesianFarmOrg1MSP.admin')"
+        Endorsement:
+          Type: Signature
+          Rule: "OR('IndonesianFarmOrg1MSP.peer')"
+      AnchorPeers:
+        - Host: peer0.indonesianfarmorg1.supplychain.com
+          Port: 7051
+
+  - &USClientOrg2
+      Name: USClientOrg2MSP
+      ID: USClientOrg2MSP
+      MSPDir: ../organizations/peerOrganizations/usclientorg2.supplychain.com/msp
+      Policies:
+        Readers:
+          Type: Signature
+          Rule: "OR('USClientOrg2MSP.admin', 'USClientOrg2MSP.peer', 'USClientOrg2MSP.client')"
+        Writers:
+          Type: Signature
+          Rule: "OR('USClientOrg2MSP.admin', 'USClientOrg2MSP.client')"
+        Admins:
+          Type: Signature
+          Rule: "OR('USClientOrg2MSP.admin')"
+        Endorsement:
+          Type: Signature
+          Rule: "OR('USClientOrg2MSP.peer')"
+      AnchorPeers:
+        - Host: peer0.usclientorg2.supplychain.com
+          Port: 9051
+
+  - &RubberShipperOrg3
+      Name: RubberShipperOrg3MSP
+      ID: RubberShipperOrg3MSP
+      MSPDir: ../organizations/peerOrganizations/rubbershipperorg3.supplychain.com/msp
+      Policies:
+        Readers:
+          Type: Signature
+          Rule: "OR('RubberShipperOrg3MSP.admin', 'RubberShipperOrg3MSP.peer', 'RubberShipperOrg3MSP.client')"
+        Writers:
+          Type: Signature
+          Rule: "OR('RubberShipperOrg3MSP.admin', 'RubberShipperOrg3MSP.client')"
+        Admins:
+          Type: Signature
+          Rule: "OR('RubberShipperOrg3MSP.admin')"
+        Endorsement:
+          Type: Signature
+          Rule: "OR('RubberShipperOrg3MSP.peer')"
+      AnchorPeers:
+        - Host: peer0.rubbershipperorg3.supplychain.com
+          Port: 11051
+
+  - &GoodsCustomOrg4
+      Name: GoodsCustomOrg4MSP
+      ID: GoodsCustomOrg4MSP
+      MSPDir: ../organizations/peerOrganizations/goodscustomorg4.supplychain.com/msp
+      Policies:
+        Readers:
+          Type: Signature
+          Rule: "OR('GoodsCustomOrg4MSP.admin', 'GoodsCustomOrg4MSP.peer', 'GoodsCustomOrg4MSP.client')"
+        Writers:
+          Type: Signature
+          Rule: "OR('GoodsCustomOrg4MSP.admin', 'GoodsCustomOrg4MSP.client')"
+        Admins:
+          Type: Signature
+          Rule: "OR('GoodsCustomOrg4MSP.admin')"
+        Endorsement:
+          Type: Signature
+          Rule: "OR('GoodsCustomOrg4MSP.peer')"
+      AnchorPeers:
+        - Host: peer0.goodscustomorg4.supplychain.com
+          Port: 13051
+
+Capabilities:
+  Channel: &ChannelCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Application: &ApplicationCapabilities
+    V2_0: true
+
+Application: &ApplicationDefaults
+  Organizations:
+
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+  Capabilities:
+    <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+  OrdererType: etcdraft
+  Addresses:
+    - orderer.supplychain.com:7050
+    - orderer2.supplychain.com:8050
+    - orderer3.supplychain.com:9050
+  EtcdRaft:
+    Consenters:
+    - Host: orderer.supplychain.com
+      Port: 7050
+      ClientTLSCert: ../organizations/ordererOrganizations/supplychain.com/orderers/orderer.supplychain.com/tls/server.crt
+      ServerTLSCert: ../organizations/ordererOrganizations/supplychain.com/orderers/orderer.supplychain.com/tls/server.crt
+    - Host: orderer2.supplychain.com
+      Port: 8050
+      ClientTLSCert: ../organizations/ordererOrganizations/supplychain.com/orderers/orderer2.supplychain.com/tls/server.crt
+      ServerTLSCert: ../organizations/ordererOrganizations/supplychain.com/orderers/orderer2.supplychain.com/tls/server.crt
+    - Host: orderer3.supplychain.com
+      Port: 9050
+      ClientTLSCert: ../organizations/ordererOrganizations/supplychain.com/orderers/orderer3.supplychain.com/tls/server.crt
+      ServerTLSCert: ../organizations/ordererOrganizations/supplychain.com/orderers/orderer3.supplychain.com/tls/server.crt
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB 
+    PreferredMaxBytes: 512 KB
+  Organizations:
+
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+  Capabilities:
+    <<: *ChannelCapabilities
+
+Profiles:
+  FourOrgsOrdererGenesis:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+
+      Organizations:
+        - *OrdererOrg
+      Capabilities:
+        <<: *OrdererCapabilities
+    Consortiums:
+      SupplychainConsortium:
+        Organizations:
+          - *IndonesianFarmOrg1
+          - *USClientOrg2
+          - *RubberShipperOrg3
+          - *GoodsCustomOrg4
+  
+  FourOrgsChannel:
+    Consortium: SupplychainConsortium
+    <<: *ChannelDefaults
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *IndonesianFarmOrg1
+        - *USClientOrg2
+        - *RubberShipperOrg3
+        - *GoodsCustomOrg4
+      Capabilities:
+        <<: *ApplicationCapabilities

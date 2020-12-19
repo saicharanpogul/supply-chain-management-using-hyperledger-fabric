@@ -1,0 +1,286 @@
+version: '2'
+
+volumes: 
+  orderer.supplychain.com:
+  orderer2.supplychain.com:
+  orderer3.supplychain.com:
+  peer0.indonesianfarmorg1.supplychain.com:
+  peer1.indonesianfarmorg1.supplychain.com:
+  peer0.usclientorg2.supplychain.com:
+  peer1.usclientorg2.supplychain.com:
+  peer0.rubbershipperorg3.supplychain.com:
+  peer1.rubbershipperorg3.supplychain.com:
+  peer0.goodscustomorg4.supplychain.com:
+  peer1.goodscustomorg4.supplychain.com:
+
+networks: 
+  supplychain:
+
+services: 
+
+# ORDERERS
+  orderer.supplychain.com:
+    extends: 
+      file: base/docker-compose-base.yaml
+      service: orderer.supplychain.com
+    container_name: orderer.supplychain.com
+    networks: 
+      - supplychain
+
+  orderer2.supplychain.com:
+    extends: 
+      file: base/docker-compose-base.yaml
+      service: orderer2.supplychain.com
+    container_name: orderer2.supplychain.com
+    networks: 
+      - supplychain
+
+  orderer3.supplychain.com:
+    extends: 
+      file: base/docker-compose-base.yaml
+      service: orderer3.supplychain.com
+    container_name: orderer3.supplychain.com
+    networks: 
+      - supplychain
+
+# PEERS
+  couchdb1:
+    container_name: couchdb1
+    image: couchdb:3.1.1
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - 5984:5984
+    networks:
+      - supplychain
+
+  peer0.indonesianfarmorg1.supplychain.com:
+    extends: 
+      file: base/docker-compose-base.yaml
+      service: peer0.indonesianfarmorg1.supplychain.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+    depends_on:
+      - couchdb1
+    networks: 
+      - supplychain
+  
+  couchdb2:
+    container_name: couchdb2
+    image: couchdb:3.1.1
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - 6984:5984
+    networks:
+      - supplychain
+
+  peer1.indonesianfarmorg1.supplychain.com:
+    extends: 
+      file: base/docker-compose-base.yaml
+      service: peer1.indonesianfarmorg1.supplychain.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb2:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+    depends_on:
+      - couchdb2
+    networks: 
+      - supplychain
+
+  couchdb3:
+    container_name: couchdb3
+    image: couchdb:3.1.1
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - 7984:5984
+    networks:
+      - supplychain
+
+  peer0.usclientorg2.supplychain.com:
+    extends: 
+      file: base/docker-compose-base.yaml
+      service: peer0.usclientorg2.supplychain.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb3:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+    depends_on:
+      - couchdb3
+    networks: 
+      - supplychain
+
+  couchdb4:
+    container_name: couchdb4
+    image: couchdb:3.1.1
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - 8984:5984
+    networks:
+      - supplychain
+
+  peer1.usclientorg2.supplychain.com:
+    extends: 
+      file: base/docker-compose-base.yaml
+      service: peer1.usclientorg2.supplychain.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+    depends_on:
+      - couchdb4
+    networks: 
+      - supplychain
+
+  couchdb5:
+    container_name: couchdb5
+    image: couchdb:3.1.1
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - 9984:5984
+    networks:
+      - supplychain
+
+  peer0.rubbershipperorg3.supplychain.com:
+    extends: 
+      file: base/docker-compose-base.yaml
+      service: peer0.rubbershipperorg3.supplychain.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb5:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+    depends_on:
+      - couchdb5
+    networks: 
+      - supplychain
+
+  couchdb6:
+    container_name: couchdb6
+    image: couchdb:3.1.1
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - 10984:5984
+    networks:
+      - supplychain
+
+  peer1.rubbershipperorg3.supplychain.com:
+    extends: 
+      file: base/docker-compose-base.yaml
+      service: peer1.rubbershipperorg3.supplychain.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb6:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+    depends_on:
+      - couchdb6
+    networks: 
+      - supplychain
+
+  couchdb7:
+    container_name: couchdb7
+    image: couchdb:3.1.1
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - 11984:5984
+    networks:
+      - supplychain
+
+  peer0.goodscustomorg4.supplychain.com:
+    extends: 
+      file: base/docker-compose-base.yaml
+      service: peer0.goodscustomorg4.supplychain.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb7:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+    depends_on:
+      - couchdb7
+    networks: 
+      - supplychain
+
+  couchdb8:
+    container_name: couchdb8
+    image: couchdb:3.1.1
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - 12984:5984
+    networks:
+      - supplychain
+
+  peer1.goodscustomorg4.supplychain.com:
+    extends: 
+      file: base/docker-compose-base.yaml
+      service: peer1.goodscustomorg4.supplychain.com
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb8:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+    depends_on:
+      - couchdb8
+    networks: 
+      - supplychain
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:$IMAGE_TAG
+    tty: true
+    stdin_open: true 
+    environment: 
+      - SYS_CHANNEL=${SYS_CHANNEL}
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=cli
+      - CORE_PEER_ADDRESS=peer0.indonesianfarmorg1.supplychain.com:7051
+      - CORE_PEER_LOCALMSPID=IndonesianFarmOrg1MSP
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/indonesianfarmorg1.supplychain.com/peers/peer0.indonesianfarmorg1.supplychain.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/indonesianfarmorg1.supplychain.com/peers/peer0.indonesianfarmorg1.supplychain.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/indonesianfarmorg1.supplychain.com/peers/peer0.indonesianfarmorg1.supplychain.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/indonesianfarmorg1.supplychain.com/users/Admin@indonesianfarmorg1.supplychain.com/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes: 
+        - /var/run/:/host/var/run/
+#        - ./../chaincode/:/opt/gopath/src/github.com/chaincode
+        - ../organizations:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+#        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+        - ../channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on: 
+      - orderer.supplychain.com
+      - orderer2.supplychain.com
+      - orderer3.supplychain.com
+      - peer0.indonesianfarmorg1.supplychain.com
+      - peer1.indonesianfarmorg1.supplychain.com
+      - peer0.usclientorg2.supplychain.com
+      - peer1.usclientorg2.supplychain.com
+      - peer0.rubbershipperorg3.supplychain.com
+      - peer1.rubbershipperorg3.supplychain.com
+      - peer0.goodscustomorg4.supplychain.com
+      - peer1.goodscustomorg4.supplychain.com
+    networks: 
+      - supplychain

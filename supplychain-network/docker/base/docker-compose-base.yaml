@@ -1,0 +1,224 @@
+version: '2'
+
+services:
+
+  orderer.supplychain.com:
+    environment:
+      - ORDERER_GENERAL_LISTENPORT=7050
+    extends:
+      file: peer-base.yaml
+      service: orderer-base
+    volumes:
+      - ../../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ../../organizations/ordererOrganizations/supplychain.com/orderers/orderer.supplychain.com/msp/:/var/hyperledger/orderer/msp
+      - ../../organizations/ordererOrganizations/supplychain.com/orderers/orderer.supplychain.com/tls/:/var/hyperledger/orderer/tls
+      - orderer.supplychain.com:/var/hyperledger/production/orderer
+    ports:
+      - 7050:7050
+      - 8443:8443
+
+  orderer2.supplychain.com:
+    environment: 
+      - ORDERER_GENERAL_LISTENPORT=8050
+    extends: 
+      file: peer-base.yaml
+      service: orderer-base
+    volumes: 
+      - ../../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ../../organizations/ordererOrganizations/supplychain.com/orderers/orderer2.supplychain.com/msp/:/var/hyperledger/orderer/msp
+      - ../../organizations/ordererOrganizations/supplychain.com/orderers/orderer2.supplychain.com/tls/:/var/hyperledger/orderer/tls
+      - orderer2.supplychain.com:/var/hyperledger/production/orderer
+    ports:
+      - 8050:8050
+      - 8444:8443
+
+  orderer3.supplychain.com:
+    environment: 
+      - ORDERER_GENERAL_LISTENPORT=9050
+    extends: 
+      file: peer-base.yaml
+      service: orderer-base
+    volumes: 
+      - ../../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ../../organizations/ordererOrganizations/supplychain.com/orderers/orderer3.supplychain.com/msp/:/var/hyperledger/orderer/msp
+      - ../../organizations/ordererOrganizations/supplychain.com/orderers/orderer3.supplychain.com/tls/:/var/hyperledger/orderer/tls
+      - orderer3.supplychain.com:/var/hyperledger/production/orderer
+    ports:
+      - 9050:9050
+      - 8445:8443
+
+  peer0.indonesianfarmorg1.supplychain.com:
+    container_name: peer0.indonesianfarmorg1.supplychain.com
+    extends: 
+      file: peer-base.yaml
+      service: peer-base
+    environment: 
+      - CORE_PEER_ID=peer0.indonesianfarmorg1.supplychain.com
+      - CORE_PEER_ADDRESS=peer0.indonesianfarmorg1.supplychain.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.indonesianfarmorg1.supplychain.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.indonesianfarmorg1.supplychain.com:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.indonesianfarmorg1.supplychain.com:7051
+      - CORE_PEER_LOCALMSPID=IndonesianFarmOrg1MSP
+    volumes: 
+      - /var/run/:/host/var/run/
+      - ../../organizations/peerOrganizations/indonesianfarmorg1.supplychain.com/peers/peer0.indonesianfarmorg1.supplychain.com/msp:/etc/hyperledger/fabric/msp
+      - ../../organizations/peerOrganizations/indonesianfarmorg1.supplychain.com/peers/peer0.indonesianfarmorg1.supplychain.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.indonesianfarmorg1.supplychain.com:/var/hyperledger/production
+    ports: 
+      - 7051:7051
+
+  peer1.indonesianfarmorg1.supplychain.com:
+    container_name: peer1.indonesianfarmorg1.supplychain.com
+    extends: 
+      file: peer-base.yaml
+      service: peer-base
+    environment: 
+      - CORE_PEER_ID=peer1.indonesianfarmorg1.supplychain.com
+      - CORE_PEER_ADDRESS=peer1.indonesianfarmorg1.supplychain.com:8051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.indonesianfarmorg1.supplychain.com:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.indonesianfarmorg1.supplychain.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.indonesianfarmorg1.supplychain.com:8051
+      - CORE_PEER_LOCALMSPID=IndonesianFarmOrg1MSP
+    volumes: 
+      - /var/run/:/host/var/run/
+      - ../../organizations/peerOrganizations/indonesianfarmorg1.supplychain.com/peers/peer1.indonesianfarmorg1.supplychain.com/msp:/etc/hyperledger/fabric/msp
+      - ../../organizations/peerOrganizations/indonesianfarmorg1.supplychain.com/peers/peer1.indonesianfarmorg1.supplychain.com/tls:/etc/hyperledger/fabric/tls
+      - peer1.indonesianfarmorg1.supplychain.com:/var/hyperledger/production
+    ports: 
+      - 8051:8051
+
+  peer0.usclientorg2.supplychain.com:
+    container_name: peer0.usclientorg2.supplychain.com
+    extends: 
+      file: peer-base.yaml
+      service: peer-base
+    environment: 
+      - CORE_PEER_ID=peer0.usclientorg2.supplychain.com
+      - CORE_PEER_ADDRESS=peer0.usclientorg2.supplychain.com:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.usclientorg2.supplychain.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.usclientorg2.supplychain.com:10051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.usclientorg2.supplychain.com:9051
+      - CORE_PEER_LOCALMSPID=USClientOrg2MSP
+    volumes: 
+      - /var/run/:/host/var/run/
+      - ../../organizations/peerOrganizations/usclientorg2.supplychain.com/peers/peer0.usclientorg2.supplychain.com/msp:/etc/hyperledger/fabric/msp
+      - ../../organizations/peerOrganizations/usclientorg2.supplychain.com/peers/peer0.usclientorg2.supplychain.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.usclientorg2.supplychain.com:/var/hyperledger/production
+    ports: 
+      - 9051:9051
+
+  peer1.usclientorg2.supplychain.com:
+    container_name: peer1.usclientorg2.supplychain.com
+    extends: 
+      file: peer-base.yaml
+      service: peer-base
+    environment: 
+      - CORE_PEER_ID=peer1.usclientorg2.supplychain.com
+      - CORE_PEER_ADDRESS=peer1.usclientorg2.supplychain.com:10051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.usclientorg2.supplychain.com:10052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.usclientorg2.supplychain.com:9051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.usclientorg2.supplychain.com:10051
+      - CORE_PEER_LOCALMSPID=USClientOrg2MSP
+    volumes: 
+      - /var/run/:/host/var/run/
+      - ../../organizations/peerOrganizations/usclientorg2.supplychain.com/peers/peer1.usclientorg2.supplychain.com/msp:/etc/hyperledger/fabric/msp
+      - ../../organizations/peerOrganizations/usclientorg2.supplychain.com/peers/peer1.usclientorg2.supplychain.com/tls:/etc/hyperledger/fabric/tls
+      - peer1.usclientorg2.supplychain.com:/var/hyperledger/production
+    ports: 
+      - 10051:10051
+
+  peer0.rubbershipperorg3.supplychain.com:
+    container_name: peer0.rubbershipperorg3.supplychain.com
+    extends: 
+      file: peer-base.yaml
+      service: peer-base
+    environment: 
+      - CORE_PEER_ID=peer0.rubbershipperorg3.supplychain.com
+      - CORE_PEER_ADDRESS=peer0.rubbershipperorg3.supplychain.com:11051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:11051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.rubbershipperorg3.supplychain.com:11052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.rubbershipperorg3.supplychain.com:12051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.rubbershipperorg3.supplychain.com:11051
+      - CORE_PEER_LOCALMSPID=RubberShipperOrg3MSP
+    volumes: 
+      - /var/run/:/host/var/run/
+      - ../../organizations/peerOrganizations/rubbershipperorg3.supplychain.com/peers/peer0.rubbershipperorg3.supplychain.com/msp:/etc/hyperledger/fabric/msp
+      - ../../organizations/peerOrganizations/rubbershipperorg3.supplychain.com/peers/peer0.rubbershipperorg3.supplychain.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.rubbershipperorg3.supplychain.com:/var/hyperledger/production
+    ports: 
+      - 11051:11051
+
+  peer1.rubbershipperorg3.supplychain.com:
+    container_name: peer1.rubbershipperorg3.supplychain.com
+    extends: 
+      file: peer-base.yaml
+      service: peer-base
+    environment: 
+      - CORE_PEER_ID=peer1.rubbershipperorg3.supplychain.com
+      - CORE_PEER_ADDRESS=peer1.rubbershipperorg3.supplychain.com:12051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:12051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.rubbershipperorg3.supplychain.com:12052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:12052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.rubbershipperorg3.supplychain.com:11051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.rubbershipperorg3.supplychain.com:12051
+      - CORE_PEER_LOCALMSPID=RubberShipperOrg3MSP
+    volumes: 
+      - /var/run/:/host/var/run/
+      - ../../organizations/peerOrganizations/rubbershipperorg3.supplychain.com/peers/peer1.rubbershipperorg3.supplychain.com/msp:/etc/hyperledger/fabric/msp
+      - ../../organizations/peerOrganizations/rubbershipperorg3.supplychain.com/peers/peer1.rubbershipperorg3.supplychain.com/tls:/etc/hyperledger/fabric/tls
+      - peer1.rubbershipperorg3.supplychain.com:/var/hyperledger/production
+    ports: 
+      - 12051:12051
+
+  peer0.goodscustomorg4.supplychain.com:
+    container_name: peer0.goodscustomorg4.supplychain.com
+    extends: 
+      file: peer-base.yaml
+      service: peer-base
+    environment: 
+      - CORE_PEER_ID=peer0.goodscustomorg4.supplychain.com
+      - CORE_PEER_ADDRESS=peer0.goodscustomorg4.supplychain.com:13051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:13051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.goodscustomorg4.supplychain.com:13052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:13052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.goodscustomorg4.supplychain.com:12051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.goodscustomorg4.supplychain.com:13051
+      - CORE_PEER_LOCALMSPID=GoodsCustomOrg4MSP
+    volumes: 
+      - /var/run/:/host/var/run/
+      - ../../organizations/peerOrganizations/goodscustomorg4.supplychain.com/peers/peer0.goodscustomorg4.supplychain.com/msp:/etc/hyperledger/fabric/msp
+      - ../../organizations/peerOrganizations/goodscustomorg4.supplychain.com/peers/peer0.goodscustomorg4.supplychain.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.goodscustomorg4.supplychain.com:/var/hyperledger/production
+    ports: 
+      - 13051:13051
+
+  peer1.goodscustomorg4.supplychain.com:
+    container_name: peer1.goodscustomorg4.supplychain.com
+    extends: 
+      file: peer-base.yaml
+      service: peer-base
+    environment: 
+      - CORE_PEER_ID=peer1.goodscustomorg4.supplychain.com
+      - CORE_PEER_ADDRESS=peer1.goodscustomorg4.supplychain.com:14051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:14051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.goodscustomorg4.supplychain.com:14052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:14052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.goodscustomorg4.supplychain.com:13051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.goodscustomorg4.supplychain.com:14051
+      - CORE_PEER_LOCALMSPID=GoodsCustomOrg4MSP
+    volumes: 
+      - /var/run/:/host/var/run/
+      - ../../organizations/peerOrganizations/goodscustomorg4.supplychain.com/peers/peer1.goodscustomorg4.supplychain.com/msp:/etc/hyperledger/fabric/msp
+      - ../../organizations/peerOrganizations/goodscustomorg4.supplychain.com/peers/peer1.goodscustomorg4.supplychain.com/tls:/etc/hyperledger/fabric/tls
+      - peer1.goodscustomorg4.supplychain.com:/var/hyperledger/production
+    ports: 
+      - 14051:14051
