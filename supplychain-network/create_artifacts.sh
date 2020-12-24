@@ -1,9 +1,6 @@
 #!/bin/bash 
 source ../terminal_control.sh
 
-print Green "========== Genetating Channel Artifacts =========="
-echo ""
-
 export FABRIC_CFG_PATH=${PWD}/configtx/
 
 # Generate crypto material using cryptogen tool
@@ -40,37 +37,34 @@ echo ""
 print Green "========== Channel Configuration Block Generated =========="
 echo ""
 
-print Green "========== Generating Anchor Peer Update For Org1MSP =========="
+print Green "========== Generating Anchor Peer Update For IndonesianFarmOrg1MSP =========="
 echo ""
 
 ../../fabric-samples/bin/configtxgen -profile FourOrgsChannel -configPath ./configtx/ -outputAnchorPeersUpdate ./channel-artifacts/IndonesianFarmOrg1MSPAnchor.tx -channelID $CHANNEL_NAME -asOrg IndonesianFarmOrg1MSP
 
-print Green "========== Anchor Peer Update For Org1MSP Generated =========="
+print Green "========== Anchor Peer Update For IndonesianFarmOrg1MSP Sucessful =========="
 echo ""
 
-print Green "========== Generating Anchor Peer Update For Org2MSP =========="
+print Green "========== Generating Anchor Peer Update For USClientOrg2MSP =========="
 echo ""
 
 ../../fabric-samples/bin/configtxgen -profile FourOrgsChannel -configPath ./configtx/ -outputAnchorPeersUpdate ./channel-artifacts/USClientOrg2MSPAnchor.tx -channelID $CHANNEL_NAME -asOrg USClientOrg2MSP
 
-print Green "========== Anchor Peer Update For Org2MSP Generated =========="
+print Green "========== Anchor Peer Update For USClientOrg2MSP Sucessful =========="
 echo ""
 
-print Green "========== Generating Anchor Peer Update For Org3MSP =========="
+print Green "========== Generating Anchor Peer Update For RubberShipperOrg3MSP =========="
 echo ""
 
 ../../fabric-samples/bin/configtxgen -profile FourOrgsChannel -configPath ./configtx/ -outputAnchorPeersUpdate ./channel-artifacts/RubberShipperOrg3MSPAnchor.tx -channelID $CHANNEL_NAME -asOrg RubberShipperOrg3MSP
 
-print Green "========== Anchor Peer Update For Org3MSP Generated =========="
+print Green "========== Anchor Peer Update For RubberShipperOrg3MSP Sucessful =========="
 echo ""
 
-print Green "========== Generating Anchor Peer Update For Org4MSP =========="
+print Green "========== Generating Anchor Peer Update For GoodsCustomOrg4MSP =========="
 echo ""
 
 ../../fabric-samples/bin/configtxgen -profile FourOrgsChannel -configPath ./configtx/ -outputAnchorPeersUpdate ./channel-artifacts/GoodsCustomOrg4MSPAnchor.tx -channelID $CHANNEL_NAME -asOrg GoodsCustomOrg4MSP
 
-print Green "========== Anchor Peer Update For Org4MSP Generated =========="
-echo ""
-
-print Green "==========Channel Artifacts Generated =========="
+print Green "========== Anchor Peer Update For GoodsCustomOrg4MSP Sucessful =========="
 echo ""
