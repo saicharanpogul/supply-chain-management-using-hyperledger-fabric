@@ -1,5 +1,5 @@
 #!/bin/bash
-source ../terminal-control.sh
+source ../terminal_control.sh
 
 export FABRIC_CFG_PATH=${HOME}/fabric/hyperledger-fabric/config/
 export CORE_PEER_TLS_ENABLED=true

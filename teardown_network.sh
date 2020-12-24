@@ -1,8 +1,17 @@
 #!/bin/bash
-source ./terminal-control.sh
+source ./terminal_control.sh
 
 cd ./supplychain-network/docker/
 
-print Red "--------Bringing down the Containers and Pruning Volumes--------"
-echo ""
+print Red "========== Bringing down the Containers and Pruning Volumes =========="
 docker-compose -f docker-compose.yaml down -v
+
+cd ..
+
+print Red "========== Clearing Crypto Material =========="
+sudo rm -rf organizations/
+
+cd ./chaincode-lifecycle-scripts/
+
+print Red "========== Deleting Chaincode Package =========="
+sudo rm -rf supplychain.tar.gz

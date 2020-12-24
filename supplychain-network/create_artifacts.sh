@@ -1,5 +1,5 @@
 #!/bin/bash 
-source ../terminal-control.sh
+source ../terminal_control.sh
 print Green "----------Genetating Channel Artifacts----------"
 echo ""
 
@@ -16,11 +16,11 @@ print Green "=======Crypto Material Generated======="
 echo ""
 
 SYS_CHANNEL=supplychain-sys-channel
-print Yellow "System Channel Name: "$SYS_CHANNEL
+print Purple "System Channel Name: "$SYS_CHANNEL
 echo ""
 
 CHANNEL_NAME=supplychain-channel
-print Yellow "Application Channel Name: "$CHANNEL_NAME
+print Purple "Application Channel Name: "$CHANNEL_NAME
 echo ""
 
 # Generate System Genesis Block using configtxgen tool

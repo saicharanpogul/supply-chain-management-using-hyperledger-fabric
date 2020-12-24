@@ -24,7 +24,6 @@ services:
     dns_search: .
     environment:
       - ORDERER_GENERAL_LOGLEVEL=DEBUG
-      - GODEBUG=netdns=go
       - FABRIC_LOGGING_SPEC=INFO
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_GENESISMETHOD=file
@@ -41,6 +40,6 @@ services:
       - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
       - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
       - ORDERER_METRICS_PROVIDER=prometheus
-      - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+      # - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderers
     command: orderer
