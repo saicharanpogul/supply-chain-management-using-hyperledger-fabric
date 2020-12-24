@@ -1,100 +1,45 @@
-# Chaincode Lifecycle Steps
+# Chaincode CLI Invocation commands
 
-## Package, Install, Query Installed, Approve, Query Approved, Check Commit Readiness  Chaincode using IndonesianFarmOrg1
-**chaincode-env-scripts/**  
-```source indonesianFarmOrg1Env.sh```
+## Init Smart Contract
 
-**chaincode-lifecycle-scripts/**  
-```./package_chaincode.sh```
+``` peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.supplychain.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C supplychain-channel -n supplychain --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 --peerAddresses localhost:11051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG3 --peerAddresses localhost:13051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG4  --isInit -c '{"Args":[]}' ```
 
-```./install_chaincode.sh```
+## Invoke GenerateRubberCert
 
-*Copy the chaincode package identifier and:*
-**export CHAINCODE_PACKAGE_ID=<new-package-identifier>**  
-```./query_installed_chaincode.sh```
+``` peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.supplychain.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C supplychain-channel -n supplychain --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 --peerAddresses localhost:11051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG3 --peerAddresses localhost:13051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG4 -c '{"Args":["GenerateRubberCert", "rubber1", "natural", "shore 00 - extra soft", "14", "indonesian farm", "10000", "us client", "24-12-2020"]}' ```
 
-```./approve_chaincode.sh```
+## Invoke QueryGeneratedRubberCert
 
-```./query_approved_chaincode.sh```
+``` peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.supplychain.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C supplychain-channel -n supplychain --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 --peerAddresses localhost:11051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG3 --peerAddresses localhost:13051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG4 -c '{"Args":["QueryGeneratedRubberCert", "rubber1"]}' ```
 
-```./check_commit_readiness.sh```
+## Invoke TransferRubberCert
 
-## Install, Query Installed, Approve, Query Approved, Check Commit Readiness Chaincode using USClientOrg2
-**chaincode-env-scripts/**  
-```source usClientOrg2Env.sh```
+``` peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.supplychain.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C supplychain-channel -n supplychain --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 --peerAddresses localhost:11051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG3 --peerAddresses localhost:13051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG4 -c '{"Args":["TransferRubberCert", "rubber1", "rubber shipper"]}' ```
 
-**chaincode-lifecycle-scripts/**  
-```./install_chaincode.sh```
+## Invoke GenerateShippingBill
 
-```./query_installed_chaincode.sh```
+``` peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.supplychain.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C supplychain-channel -n supplychain --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 --peerAddresses localhost:11051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG3 --peerAddresses localhost:13051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG4 -c '{"Args":["GenerateShippingBill", "rubber1", "bill1", "500", "manhattan, nyc", "28-12-2020"]}' ```
 
-```./approve_chaincode.sh```
+## Invoke QueryGeneratedRubberCert
 
-```./query_approved_chaincode.sh```
+``` peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.supplychain.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C supplychain-channel -n supplychain --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 --peerAddresses localhost:11051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG3 --peerAddresses localhost:13051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG4 -c '{"Args":["QueryGeneratedShippingBill", "rubber1", "bill1"]}' ```
 
-```./check_commit_readiness.sh```
+## Invoke TransferRubberCert
 
-## Install, Query Installed, Approve, Query Approved, Check Commit Readiness Chaincode using RubberShipperOrg3
-**chaincode-env-scripts/**  
-```source rubberShipperOrg3Env.sh```
+``` peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.supplychain.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C supplychain-channel -n supplychain --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 --peerAddresses localhost:11051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG3 --peerAddresses localhost:13051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG4 -c '{"Args":["TransferRubberCertAndShippingBill", "rubber1", "bill1", "goods custom"]}' ```
 
-**chaincode-lifecycle-scripts/**  
-```./install_chaincode.sh```
+## Invoke GenerateApprovalCert
 
-```./query_installed_chaincode.sh```
+``` peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.supplychain.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C supplychain-channel -n supplychain --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 --peerAddresses localhost:11051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG3 --peerAddresses localhost:13051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG4 -c '{"Args":["GenerateApprovalCert", "rubber1", "bill1", "approval1", "approved", "31-12-2020", "goods custom"]}' ```
 
-```./approve_chaincode.sh```
+## Invoke QueryGeneratedApprovalCert
 
-```./query_approved_chaincode.sh```
+``` peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.supplychain.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C supplychain-channel -n supplychain --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 --peerAddresses localhost:11051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG3 --peerAddresses localhost:13051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG4 -c '{"Args":["QueryGeneratedApprovalCert", "rubber1", "bill1", "approval1"]}' ```
 
-```./check_commit_readiness.sh```
+## Invoke TransferRubberCertAndShippingBillAndApprovalCert
 
-## Install, Query Installed, Approve, Query Approved, Check Commit Readiness Chaincode using GoodsCustomOrg4
-**chaincode-env-scripts/**  
-```source goodsCustomOrg4Env.sh```
+``` peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.supplychain.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C supplychain-channel -n supplychain --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 --peerAddresses localhost:11051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG3 --peerAddresses localhost:13051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG4 -c '{"Args":["TransferRubberCertAndShippingBillAndApprovalCert", "rubber1", "bill1", "approval1", "us client"]}' ```
 
-**chaincode-lifecycle-scripts/**  
-```./install_chaincode.sh```
+## Invoke GetAllDocs
 
-```./query_installed_chaincode.sh```
-
-```./approve_chaincode.sh```
-
-```./query_approved_chaincode.sh```
-
-```./check_commit_readiness.sh```
-
-## Commit Chaincode using all organizations ROOTCERT_FILEs
-**chaincode-env-scripts/**  
-```source all_org_tls_rootcert_file.sh```
-
-**chaincode-lifecycle-scripts/**  
-```./commit.sh```
-
-## Query Committed Chaincode using IndonesianFarmOrg1
-**chaincode-env-scripts/**  
-```source indonesianFarmOrg1Env.sh```
-
-**chaincode-lifecycle-scripts/**  
-```./query_committed.sh```
-
-## Query Committed Chaincode using USClientOrg2
-**chaincode-env-scripts/**  
-```source usClientOrg2Env.sh```
-
-**chaincode-lifecycle-scripts/**  
-```./query_committed.sh```
-
-## Query Committed Chaincode using RubberShipperOrg3
-**chaincode-env-scripts/**  
-```source rubberShipperOrg3Env.sh```
-
-**chaincode-lifecycle-scripts/**  
-```./query_committed.sh```
-
-## Query Committed Chaincode using GoodsCustomOrg4
-**chaincode-env-scripts/**  
-```source goodsCustomOrg4Env.sh```
-
-**chaincode-lifecycle-scripts/**  
-```./query_committed.sh```
+``` peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.supplychain.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C supplychain-channel -n supplychain --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 --peerAddresses localhost:11051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG3 --peerAddresses localhost:13051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG4 -c '{"Args":["GetAllDocs", "rubber1", "bill1", "approval1"]}' ```

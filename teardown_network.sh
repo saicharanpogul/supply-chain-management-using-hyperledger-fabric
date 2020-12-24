@@ -11,7 +11,5 @@ cd ..
 print Red "========== Clearing Crypto Material =========="
 sudo rm -rf organizations/
 
-cd ./chaincode-lifecycle-scripts/
-
 print Red "========== Deleting Chaincode Package =========="
 sudo rm -rf supplychain.tar.gz
