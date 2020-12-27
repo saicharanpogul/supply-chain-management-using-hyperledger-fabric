@@ -1,6 +1,7 @@
 #!/bin/bash
 source ../terminal_control.sh
 
+export FABRIC_CFG_PATH=/home/hlfabric/fabric/hyperledger-fabric/config
 export ORDERER_CA=/home/hlfabric/fabric/hyperledger-fabric/supplychain-network/organizations/ordererOrganizations/supplychain.com/orderers/orderer.supplychain.com/msp/tlscacerts/tlsca.supplychain.com-cert.pem
 export CORE_PEER_TLS_ROOTCERT_FILE_ORG1=/home/hlfabric/fabric/hyperledger-fabric/supplychain-network/organizations/peerOrganizations/indonesianfarmorg1.supplychain.com/peers/peer0.indonesianfarmorg1.supplychain.com/tls/ca.crt
 export CORE_PEER_TLS_ROOTCERT_FILE_ORG2=/home/hlfabric/fabric/hyperledger-fabric/supplychain-network/organizations/peerOrganizations/usclientorg2.supplychain.com/peers/peer0.usclientorg2.supplychain.com/tls/ca.crt

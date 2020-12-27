@@ -15,7 +15,7 @@ services:
       - orderer.supplychain.com:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
-      # - 8443:8443
+      - 8443:8443
 
   orderer2.supplychain.com:
     environment: 
@@ -30,7 +30,7 @@ services:
       - orderer2.supplychain.com:/var/hyperledger/production/orderer
     ports:
       - 8050:8050
-      # - 8444:8443
+      - 8444:8443
 
   orderer3.supplychain.com:
     environment: 
@@ -45,7 +45,7 @@ services:
       - orderer3.supplychain.com:/var/hyperledger/production/orderer
     ports:
       - 9050:9050
-      # - 8445:8443
+      - 8445:8443
 
   peer0.indonesianfarmorg1.supplychain.com:
     container_name: peer0.indonesianfarmorg1.supplychain.com

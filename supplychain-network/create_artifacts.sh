@@ -2,15 +2,16 @@
 source ../terminal_control.sh
 
 export FABRIC_CFG_PATH=${PWD}/configtx/
+print Blue "$FABRIC_CFG_PATH"
 
-# Generate crypto material using cryptogen tool
-print Green "========== Generating Crypto Material =========="
-echo ""
+# # Generate crypto material using cryptogen tool
+# print Green "========== Generating Crypto Material =========="
+# echo ""
 
-../../fabric-samples/bin/cryptogen generate --config=./crypto-config.yaml --output="organizations"
+# ../../fabric-samples/bin/cryptogen generate --config=./crypto-config.yaml --output="organizations"
 
-print Green "========== Crypto Material Generated =========="
-echo ""
+# print Green "========== Crypto Material Generated =========="
+# echo ""
 
 SYS_CHANNEL=supplychain-sys-channel
 print Purple "System Channel Name: "$SYS_CHANNEL
@@ -24,7 +25,7 @@ echo ""
 print Green "========== Generating System Genesis Block =========="
 echo ""
 
-../../fabric-samples/bin/configtxgen -profile FourOrgsOrdererGenesis -channelID $SYS_CHANNEL -outputBlock ./channel-artifacts/genesis.block
+../../fabric-samples/bin/configtxgen -configPath ./configtx/ -profile FourOrgsOrdererGenesis -channelID $SYS_CHANNEL -outputBlock ./channel-artifacts/genesis.block
 
 print Green "========== System Genesis Block Generated =========="
 echo ""

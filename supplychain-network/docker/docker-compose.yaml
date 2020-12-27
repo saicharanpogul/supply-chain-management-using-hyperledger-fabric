@@ -244,6 +244,33 @@ services:
     networks: 
       - supplychain
 
+# CAs
+  # ca_indonesianfarmorg1:
+  #   extends:
+  #     file: docker-compose-ca.yaml
+  #     service: ca_indonesianfarmorg1
+
+  # ca_usclientorg2:
+  #   extends:
+  #     file: docker-compose-ca.yaml
+  #     service: ca_usclientorg2
+
+  # ca_rubbershipperorg3:
+  #   extends:
+  #     file: docker-compose-ca.yaml
+  #     service: ca_rubbershipperorg3
+
+  # ca_goodscustomorg4:
+  #   extends:
+  #     file: docker-compose-ca.yaml
+  #     service: ca_goodscustomorg4
+
+  # ca_orderer:
+  #   extends:
+  #     file: docker-compose-ca.yaml
+  #     service: ca_orderer
+
+# CLI
 #   cli:
 #     container_name: cli
 #     image: hyperledger/fabric-tools:$IMAGE_TAG

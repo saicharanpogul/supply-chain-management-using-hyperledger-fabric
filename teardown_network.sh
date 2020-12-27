@@ -9,7 +9,9 @@ docker-compose -f docker-compose.yaml down -v
 cd ..
 
 print Red "========== Clearing Crypto Material =========="
-sudo rm -rf organizations/
+sudo rm -rf organizations/ordererOrganizations/
+sudo rm -rf organizations/peerOrganizations/
+sudo rm -rf organizations/fabric-ca/
 
 print Red "========== Deleting Chaincode Package =========="
-sudo rm -rf supplychain.tar.gz
+rm -rf supplychain.tar.gz
