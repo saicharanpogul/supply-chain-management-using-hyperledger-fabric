@@ -1,0 +1,60 @@
+{
+    "name": "supplychain-network",
+    "version": "1.0.0",
+    "client": {
+        "organization": "IndonesianFarmOrg1",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "IndonesianFarmOrg1": {
+            "mspid": "IndonesianFarmOrg1MSP",
+            "peers": [
+                "peer0.indonesianfarmorg1.supplychain.com",
+                "peer1.indonesianfarmorg1.supplychain.com"
+            ],
+            "certificateAuthorities": [
+                "ca.indonesianfarmorg1.supplychain.com"
+            ]
+        }
+    },
+    "peers": {
+        "peer0.indonesianfarmorg1.supplychain.com":{
+            "url": "grpcs://localhost:7051",
+            "grpcOption": {
+                "ssl-target-name-override": "peer0.indonesianfarmorg1.supplychain.com",
+                "hostnameOverride": "peer0.indonesianfarmorg1.supplychain.com"
+            },
+            "tlsCACerts": {
+                "path": "../supplychain-network/organizations/peerOrganizations/indonesianfarmorg1.supplychain.com/tlsca/tlsca.indonesianfarmorg1.supplychain.com-cert.pem"
+            }
+        },
+        "peer1.indonesianfarmorg1.supplychain.com":{
+            "url": "grpcs://localhost:8051",
+            "grpcOption": {
+                "ssl-target-name-override": "peer1.indonesianfarmorg1.supplychain.com",
+                "hostnameOverride": "peer1.indonesianfarmorg1.supplychain.com"
+            },
+            "tlsCACerts": {
+                "path": "../supplychain-network/organizations/peerOrganizations/indonesianfarmorg1.supplychain.com/tlsca/tlsca.indonesianfarmorg1.supplychain.com-cert.pem"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.indonesianfarmorg1.supplychain.com": {
+            "url": "https://localhost:7054",
+            "caName": "ca.indonesianfarmorg1.supplychain.com",
+            "httpOptions": {
+                "verify": false
+            },
+            "tlsCACerts": {
+                "path": "../supplychain-network/organizations/peerOrganizations/indonesianfarmorg1.supplychain.com/ca/ca.indonesianfarmorg1.supplychain.com-cert.pem"
+            }
+        }
+    }
+}

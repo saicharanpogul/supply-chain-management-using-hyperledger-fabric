@@ -1,0 +1,60 @@
+{
+    "name": "supplychain-network",
+    "version": "1.0.0",
+    "client": {
+        "organization": "RubberShipperOrg3",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "RubberShipperOrg3": {
+            "mspid": "RubberShipperOrg3MSP",
+            "peers": [
+                "peer0.rubbershipperorg3.supplychain.com",
+                "peer1.rubbershipperorg3.supplychain.com"
+            ],
+            "certificateAuthorities": [
+                "ca.rubbershipperorg3.supplychain.com"
+            ]
+        }
+    },
+    "peers": {
+        "peer0.rubbershipperorg3.supplychain.com":{
+            "url": "grpcs://localhost:11051",
+            "grpcOption": {
+                "ssl-target-name-override": "peer0.rubbershipperorg3.supplychain.com",
+                "hostnameOverride": "peer0.rubbershipperorg3.supplychain.com"
+            },
+            "tlsCACerts": {
+                "path": "../supplychain-network/organizations/peerOrganizations/rubbershipperorg3.supplychain.com/tlsca/tlsca.rubbershipperorg3.supplychain.com-cert.pem"
+            }
+        },
+        "peer1.rubbershipperorg3.supplychain.com":{
+            "url": "grpcs://localhost:12051",
+            "grpcOption": {
+                "ssl-target-name-override": "peer1.rubbershipperorg3.supplychain.com",
+                "hostnameOverride": "peer1.rubbershipperorg3.supplychain.com"
+            },
+            "tlsCACerts": {
+                "path": "../supplychain-network/organizations/peerOrganizations/rubbershipperorg3.supplychain.com/tlsca/tlsca.rubbershipperorg3.supplychain.com-cert.pem"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.rubbershipperorg3.supplychain.com": {
+            "url": "https://localhost:9054",
+            "caName": "ca.rubbershipperorg3.supplychain.com",
+            "httpOptions": {
+                "verify": false
+            },
+            "tlsCACerts": {
+                "path": "../supplychain-network/organizations/peerOrganizations/rubbershipperorg3.supplychain.com/ca/ca.rubbershipperorg3.supplychain.com-cert.pem"
+            }
+        }
+    }
+}
