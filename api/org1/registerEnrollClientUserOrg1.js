@@ -8,23 +8,23 @@ const path = require('path')
 module.exports.registerEnroll = async function registerEnroll(user) {
     try {
         // load the network configuration
-        const ccpPath = path.resolve(__dirname, 'connection-org2.json')
+        const ccpPath = path.resolve(__dirname, 'connection-org1.json')
         const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf-8'))
 
         // Create a new CA Client for interacting with the CA.
-        const caURL = ccp.certificateAuthorities['ca.usclientorg2.supplychain.com'].url
-        const ca =new FabricCAServices(caURL)
+        const caURL = ccp.certificateAuthorities['ca.indonesianfarmorg1.supplychain.com'].url
+        const ca = new FabricCAServices(caURL)
 
         // Create a new file system based wallet for managing identities.
-        const walletPath = path.join(process.cwd(), 'walletOrg2')
+        const walletPath = path.join(process.cwd(), 'walletOrg1')
         const wallet = await Wallets.newFileSystemWallet(walletPath)
         console.log(`Wallet path: ${walletPath}`)
 
-        // CHeck to see if we've already enrolled the user.
+        // Check to see if we've already enrolled the user.
         const userIdentity = await wallet.get(user)
         if (userIdentity) {
-            console.log(`And identity for the user ${user} already exists in the wallet`)
-            return `And identity for the user ${user} already exists in the wallet`
+            console.log(`An identity for the user "${user}" already exists in the wallet`)
+            throw new Error(`An identity for the user ${user.toUpperCase()} already exists in the wallet`)
         }
 
         // Check to see if we've already enrolled the admin user.
@@ -41,7 +41,7 @@ module.exports.registerEnroll = async function registerEnroll(user) {
 
         // Register  the user, enroll the user and import the new identity into the wallet.
         const secret = await ca.register({
-            affiliation: 'org2.department1',
+            affiliation: 'org1.department1',
             enrollmentID: user,
             role: 'client'
         }, adminUser)
@@ -54,13 +54,14 @@ module.exports.registerEnroll = async function registerEnroll(user) {
                 certificate: enrollment.certificate,
                 privateKey: enrollment.key.toBytes(),
             },
-            mspId: 'USClientOrg2MSP',
+            mspId: 'IndonesianFarmOrg1MSP',
             type: 'X.509',
         }
         await wallet.put(user, x509Identity)
-        console.log(`Successfully registered and enrolled user ${user} and imported it into the wallet`)
-        return `Successfully registered and enrolled user ${user} and imported it into the wallet`
+        console.log(`Successfully registered and enrolled user "${user}" and imported it into the wallet`)
+        return null
     } catch (error) {
-    console.log(`Failed to register user ${user}: ${error}`)
+        console.log(`Failed to register user "${user}": ${error}`)
+        return `Failed to register user ${user.toUpperCase()}: ${error}`
     }
 }

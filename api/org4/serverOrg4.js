@@ -1,17 +1,49 @@
 'use strict'
 
-var express = require('express')
-var bodyParser = require('body-parser')
+const { registerEnroll } = require('./registerEnrollClientUserOrg4')
+let express = require('express')
+let bodyParser = require('body-parser')
 
-var app = express()
+let app = express()
 app.use(bodyParser.json())
 
 const { Gateway, Wallets } = require('fabric-network')
 const path = require('path')
 const fs = require('fs')
 
-app.put('/api/generateapprovalcert/', async function (req, res) {
+app.get('/', async function (req, res) {
     try {
+        console.log("Test Pass!..")
+        res.status(200).json({ response: "Test Pass!..."})
+    } catch (error) {
+        console.log("Test Fail!..")
+        process.exit(1)
+    }
+})
+
+app.post('/api/registerenrolluserorg4/', async function (req, res) {
+
+    try {
+        let err = await registerEnroll(req.body.username)
+        if (err) {
+            throw new Error(err)
+        }
+
+        res.status(201).json({ 
+                status : "pass",
+                message : `Successfully registered and enrolled user ${req.body.username.toUpperCase()} and imported it into the wallet`
+            })
+    } catch (error) {
+        res.status(501).json({
+        status : "fail",
+        message : error.message
+    })
+    }
+})
+
+app.post('/api/generateapprovalcert/', async function (req, res) {
+    try {
+        const username = req.body.username
         // load the network configuration
         const ccpPath = path.resolve(__dirname, 'connection-org4.json')
         const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf-8'))
@@ -22,10 +54,11 @@ app.put('/api/generateapprovalcert/', async function (req, res) {
         console.log(`Wallet path: ${walletPath}`)
 
         // Check to see if we've already enrolled the user.
-        const identity = await wallet.get('user1')
+        const identity = await wallet.get(username)
         if (!identity) {
-            console.log('An identity for the user "user1" does not exist in the wallet')
+            console.log(`An identity for the user "${username}" does not exist in the wallet`)
             console.log('Run the registerUser.js application before retrying')
+            throw new Error(`An identity for the user ${username.toUpperCase()} does not exist in the wallet`)
             return
         }
 
@@ -33,7 +66,7 @@ app.put('/api/generateapprovalcert/', async function (req, res) {
         const gateway = new Gateway()
         await gateway.connect(ccp, { 
             wallet, 
-            identity: 'user1', 
+            identity: username, 
             discovery: { 
                 enabled: true, 
                 asLocalhost: true 
@@ -48,7 +81,7 @@ app.put('/api/generateapprovalcert/', async function (req, res) {
 
         // Submit the specified transaction
         // GenerateApprovalCert has 6 arguments : rubberBatchNumber string, billNumber string, approvalCertNumber string, status string, date string, approvalCertHolder string
-        // ex: {'GenerateApprovalCert' ,'rubber1', 'approval1', 'approve', '1-1-2021', 'us client'}
+        // ex: {'GenerateApprovalCert' ,'rubber1', 'bill1', 'approval1', 'approve', '1-1-2021', 'us client'}
 
         await contact.submitTransaction(
             'GenerateApprovalCert', 
@@ -60,18 +93,25 @@ app.put('/api/generateapprovalcert/', async function (req, res) {
             req.body.approvalCertHolder
         )
         console.log('Transaction has been submitted')
-        res.send('Transaction has been submitted')
+        res.status(201).json({
+            result: 'Transaction has been submitted',
+            error: null
+        })
 
         // Disconnect from the gateway.
         await gateway.disconnect()
     } catch (error) {
         console.log(`Failed to evaluate transaction: ${error}`)
-        process.exit(1)
+        res.status(400)({
+            result : null,
+            error : error.message
+            })
     }
 })
 
-app.get('/api/querygeneratedapprovalcert/:rubberBatchNumber', async function (req, res) {
+app.get('/api/querygeneratedapprovalcert/', async function (req, res) {
     try {
+        const username = req.body.username
         // load the network configuration
         const ccpPath = path.resolve(__dirname, 'connection-org4.json')
         const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf-8'))
@@ -82,10 +122,11 @@ app.get('/api/querygeneratedapprovalcert/:rubberBatchNumber', async function (re
         console.log(`Wallet path: ${walletPath}`)
 
         // Check to see if we've already enrolled the user.
-        const identity = await wallet.get('user1')
+        const identity = await wallet.get(username)
         if (!identity) {
-            console.log('An identity for the user "user1" does not exist in the wallet')
+            console.log(`An identity for the user "${username}" does not exist in the wallet`)
             console.log('Run the registerUser.js application before retrying')
+            throw new Error(`An identity for the user ${username.toUpperCase()} does not exist in the wallet`)
             return
         }
 
@@ -93,7 +134,7 @@ app.get('/api/querygeneratedapprovalcert/:rubberBatchNumber', async function (re
         const gateway = new Gateway()
         await gateway.connect(ccp, { 
             wallet, 
-            identity: 'user1', 
+            identity: username, 
             discovery: { 
                 enabled: true, 
                 asLocalhost: true 
@@ -109,20 +150,27 @@ app.get('/api/querygeneratedapprovalcert/:rubberBatchNumber', async function (re
         // Evaluate the specified transaction
         // QueryGeneratedApprovalCert has 3 argument : rubberBatchNumber string, billNumber string, approvalCertNumber string
         // ex: {'QueryGeneratedApprovalCert', 'rubber1', 'bill1', 'approval1'}
-        const result = await contact.evaluateTransaction('QueryGeneratedApprovalCert', req.params.rubberBatchNumber, req.body.billNumber, req.body.approvalCertNumber)
+        const result = await contact.evaluateTransaction('QueryGeneratedApprovalCert', req.body.rubberBatchNumber, req.body.billNumber, req.body.approvalCertNumber)
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`)
-        res.status(200).json({ response: result.toString()})
+        res.status(200).json({ 
+            result: JSON.parse(result.toString()),
+            error: null,
+            })
 
         //Disconnect from the gateway.
         await gateway.disconnect()
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`)
-        process.exit(1)
+        res.status(501).json({ 
+            result: null,
+            error: error.message
+            })
     }
 })
 
-app.get('/api/transferrubbercertandshippingbillandapprovalcert/:rubberBatchNumber', async function (req, res) {
+app.put('/api/transferrubbercertandshippingbillandapprovalcert/', async function (req, res) {
     try {
+        const username = req.body.username
         // load the network configuration
         const ccpPath = path.resolve(__dirname, 'connection-org4.json')
         const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf-8'))
@@ -133,10 +181,11 @@ app.get('/api/transferrubbercertandshippingbillandapprovalcert/:rubberBatchNumbe
         console.log(`Wallet path: ${walletPath}`)
 
         // Check to see if we've already enrolled the user.
-        const identity = await wallet.get('user1')
+        const identity = await wallet.get(username)
         if (!identity) {
-            console.log('An identity for the user "user1" does not exist in the wallet')
+            console.log(`An identity for the user ${username} does not exist in the wallet`)
             console.log('Run the registerUser.js application before retrying')
+            throw new Error(`An identity for the user ${username.toUpperCase()} does not exist in the wallet`)
             return
         }
 
@@ -144,7 +193,7 @@ app.get('/api/transferrubbercertandshippingbillandapprovalcert/:rubberBatchNumbe
         const gateway = new Gateway()
         await gateway.connect(ccp, { 
             wallet, 
-            identity: 'user1', 
+            identity: username, 
             discovery: { 
                 enabled: true, 
                 asLocalhost: true 
@@ -160,15 +209,21 @@ app.get('/api/transferrubbercertandshippingbillandapprovalcert/:rubberBatchNumbe
         // Evaluate the specified transaction
         // TransferRubberCertAndShippingBillAndApprovalCert has 4 argument : rubberBatchNumber string, billNumber string, approvalCertNumber string, newApprovalHolder string
         // ex: {'TransferRubberCertAndShippingBillAndApprovalCert', 'rubber1', 'bill1', 'approval1', 'us client'}
-        const result = await contact.evaluateTransaction('TransferRubberCertAndShippingBillAndApprovalCert', req.params.id, req.body.newRubberCertHolder)
+        const result = await contact.submitTransaction('TransferRubberCertAndShippingBillAndApprovalCert', req.body.rubberBatchNumber, req.body.billNumber, req.body.approvalCertNumber, req.body.newRubberCertHolder)
         console.log('Transaction has been submitted')
-        res.send('Transaction has been submitted')
+        res.status(202).json({
+            result: 'Transaction has been submitted',
+            error: null
+        })
 
         //Disconnect from the gateway.
         await gateway.disconnect()
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`)
-        process.exit(1)
+        res.status(501).json({
+            result: null,
+            error: error.message
+        })
     }
 })
 

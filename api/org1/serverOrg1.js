@@ -28,7 +28,6 @@ app.post('/api/registerenrolluserorg1/', async function (req, res) {
         let err = await registerEnroll(req.body.username)
         if (err) {
             throw new Error(err)
-            return
         }
 
         res.status(201).json({ 

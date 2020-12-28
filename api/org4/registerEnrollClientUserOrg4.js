@@ -5,7 +5,7 @@ const FabricCAServices = require('fabric-ca-client')
 const fs = require('fs')
 const path = require('path')
 
-async function main() {
+module.exports.registerEnroll = async function registerEnroll(user) {
     try {
         // load the network configuration
         const ccpPath = path.resolve(__dirname, 'connection-org4.json')
@@ -21,10 +21,10 @@ async function main() {
         console.log(`Wallet path: ${walletPath}`)
 
         // CHeck to see if we've already enrolled the user.
-        const userIdentity = await wallet.get('user1')
+        const userIdentity = await wallet.get(user)
         if (userIdentity) {
-            console.log('And identity for the user "user1" already exists in the wallet')
-            return
+            console.log(`And identity for the user ${user} already exists in the wallet`)
+            throw new Error(`An identity for the user ${user.toUpperCase()} already exists in the wallet`)
         }
 
         // Check to see if we've already enrolled the admin user.
@@ -41,12 +41,12 @@ async function main() {
 
         // Register  the user, enroll the user and import the new identity into the wallet.
         const secret = await ca.register({
-            affiliation: 'org4.department1',
-            enrollmentID: 'user1',
+            affiliation: 'org1.department1',
+            enrollmentID: user,
             role: 'client'
         }, adminUser)
         const enrollment = await ca.enroll({ 
-            enrollmentID: 'user1',
+            enrollmentID: user,
             enrollmentSecret: secret
          })
         const x509Identity = {
@@ -57,12 +57,11 @@ async function main() {
             mspId: 'GoodsCustomOrg4MSP',
             type: 'X.509',
         }
-        await wallet.put('user1', x509Identity)
-        console.log('Successfully registered and enrolled user "user1" and imported it into the wallet')
+        await wallet.put(user, x509Identity)
+        console.log(`Successfully registered and enrolled user ${user} and imported it into the wallet`)
+        return null
     } catch (error) {
-    console.log(`Failed to register user "user1": ${error}`)
-    process.exit(1)
+    console.log(`Failed to register user ${user}: ${error}`)
+    return `Failed to register user ${user.toUpperCase()}: ${error}`
     }
 }
-
-main()

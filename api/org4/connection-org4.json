@@ -1,0 +1,60 @@
+{
+    "name": "supplychain-network",
+    "version": "1.0.0",
+    "client": {
+        "organization": "GoodsCustomOrg4",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "GoodsCustomOrg4": {
+            "mspid": "GoodsCustomOrg4MSP",
+            "peers": [
+                "peer0.goodscustomorg4.supplychain.com",
+                "peer1.goodscustomorg4.supplychain.com"
+            ],
+            "certificateAuthorities": [
+                "ca.goodscustomorg4.supplychain.com"
+            ]
+        }
+    },
+    "peers": {
+        "peer0.goodscustomorg4.supplychain.com":{
+            "url": "grpcs://localhost:13051",
+            "grpcOption": {
+                "ssl-target-name-override": "peer0.goodscustomorg4.supplychain.com",
+                "hostnameOverride": "peer0.goodscustomorg4.supplychain.com"
+            },
+            "tlsCACerts": {
+                "path": "../supplychain-network/organizations/peerOrganizations/goodscustomorg4.supplychain.com/tlsca/tlsca.goodscustomorg4.supplychain.com-cert.pem"
+            }
+        },
+        "peer1.goodscustomorg4.supplychain.com":{
+            "url": "grpcs://localhost:14051",
+            "grpcOption": {
+                "ssl-target-name-override": "peer1.goodscustomorg4.supplychain.com",
+                "hostnameOverride": "peer1.goodscustomorg4.supplychain.com"
+            },
+            "tlsCACerts": {
+                "path": "../supplychain-network/organizations/peerOrganizations/goodscustomorg4.supplychain.com/tlsca/tlsca.goodscustomorg4.supplychain.com-cert.pem"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.goodscustomorg4.supplychain.com": {
+            "url": "https://localhost:10054",
+            "caName": "ca.goodscustomorg4.supplychain.com",
+            "httpOptions": {
+                "verify": false
+            },
+            "tlsCACerts": {
+                "path": "../supplychain-network/organizations/peerOrganizations/goodscustomorg4.supplychain.com/ca/ca.goodscustomorg4.supplychain.com-cert.pem"
+            }
+        }
+    }
+}

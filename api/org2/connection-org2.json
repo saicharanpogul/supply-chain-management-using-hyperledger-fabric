@@ -1,0 +1,60 @@
+{
+    "name": "supplychain-network",
+    "version": "1.0.0",
+    "client": {
+        "organization": "USClientOrg2",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "USClientOrg2": {
+            "mspid": "USClientOrg2MSP",
+            "peers": [
+                "peer0.usclientorg2.supplychain.com",
+                "peer1.usclientorg2.supplychain.com"
+            ],
+            "certificateAuthorities": [
+                "ca.usclientorg2.supplychain.com"
+            ]
+        }
+    },
+    "peers": {
+        "peer0.usclientorg2.supplychain.com":{
+            "url": "grpcs://localhost:9051",
+            "grpcOption": {
+                "ssl-target-name-override": "peer0.usclientorg2.supplychain.com",
+                "hostnameOverride": "peer0.usclientorg2.supplychain.com"
+            },
+            "tlsCACerts": {
+                "path": "../supplychain-network/organizations/peerOrganizations/usclientorg2.supplychain.com/tlsca/tlsca.usclientorg2.supplychain.com-cert.pem"
+            }
+        },
+        "peer1.usclientorg2.supplychain.com":{
+            "url": "grpcs://localhost:10051",
+            "grpcOption": {
+                "ssl-target-name-override": "peer1.usclientorg2.supplychain.com",
+                "hostnameOverride": "peer1.usclientorg2.supplychain.com"
+            },
+            "tlsCACerts": {
+                "path": "../supplychain-network/organizations/peerOrganizations/usclientorg2.supplychain.com/tlsca/tlsca.usclientorg2.supplychain.com-cert.pem"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.usclientorg2.supplychain.com": {
+            "url": "https://localhost:8054",
+            "caName": "ca.usclientorg2.supplychain.com",
+            "httpOptions": {
+                "verify": false
+            },
+            "tlsCACerts": {
+                "path": "../supplychain-network/organizations/peerOrganizations/usclientorg2.supplychain.com/ca/ca.usclientorg2.supplychain.com-cert.pem"
+            }
+        }
+    }
+}

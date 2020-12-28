@@ -1,17 +1,49 @@
 'use strict'
 
-var express = require('express')
-var bodyParser = require('body-parser')
+const { registerEnroll } = require('./registerEnrollClientUserOrg4')
+let express = require('express')
+let bodyParser = require('body-parser')
 
-var app = express()
+let app = express()
 app.use(bodyParser.json())
 
 const { Gateway, Wallets } = require('fabric-network')
 const path = require('path')
 const fs = require('fs')
 
-app.get('/api/getalldocs/:rubberBatchNumber', async function (req, res) {
+app.get('/', async function (req, res) {
     try {
+        console.log("Test Pass!..")
+        res.status(200).json({ response: "Test Pass!..."})
+    } catch (error) {
+        console.log("Test Fail!..")
+        process.exit(1)
+    }
+})
+
+app.post('/api/registerenrolluserorg4/', async function (req, res) {
+
+    try {
+        let err = await registerEnroll(req.body.username)
+        if (err) {
+            throw new Error(err)
+        }
+
+        res.status(201).json({ 
+                status : "pass",
+                message : `Successfully registered and enrolled user ${req.body.username.toUpperCase()} and imported it into the wallet`
+            })
+    } catch (error) {
+        res.status(501).json({
+        status : "fail",
+        message : error.message
+    })
+    }
+})
+
+app.get('/api/getalldocs/', async function (req, res) {
+    try {
+        const username = req.body.username
         // load the network configuration
         const ccpPath = path.resolve(__dirname, 'connection-org2.json')
         const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf-8'))
@@ -22,10 +54,11 @@ app.get('/api/getalldocs/:rubberBatchNumber', async function (req, res) {
         console.log(`Wallet path: ${walletPath}`)
 
         // Check to see if we've already enrolled the user.
-        const identity = await wallet.get('user1')
+        const identity = await wallet.get(username)
         if (!identity) {
-            console.log('An identity for the user "user1" does not exist in the wallet')
+            console.log(`An identity for the user "${username}" does not exist in the wallet`)
             console.log('Run the registerUser.js application before retrying')
+            throw new Error(`An identity for the user ${username.toUpperCase()} does not exist in the wallet`)
             return
         }
 
@@ -33,7 +66,7 @@ app.get('/api/getalldocs/:rubberBatchNumber', async function (req, res) {
         const gateway = new Gateway()
         await gateway.connect(ccp, { 
             wallet, 
-            identity: 'user1', 
+            identity: username, 
             discovery: { 
                 enabled: true, 
                 asLocalhost: true 
@@ -56,13 +89,19 @@ app.get('/api/getalldocs/:rubberBatchNumber', async function (req, res) {
             req.body.approvalCertNumber
             )
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`)
-        res.status(200).json({ response: result.toString()})
+        res.status(200).json({ 
+            result: JSON.parse(result.toString()),
+            error: null,
+            })
 
         //Disconnect from the gateway.
         await gateway.disconnect()
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`)
-        process.exit(1)
+        res.status(501).json({ 
+            result: null,
+            error: error.message
+            })
     }
 })
 
