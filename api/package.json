@@ -13,7 +13,6 @@
   "author": "Saicharan Pogul",
   "license": "ISC",
   "dependencies": {
-    "exec": "^0.2.1",
     "express": "^4.17.1",
     "fabric-ca-client": "^2.1.0",
     "fabric-client": "^1.4.8",

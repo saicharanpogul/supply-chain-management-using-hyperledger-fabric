@@ -1,0 +1,65 @@
+server {
+	listen 80;
+
+	location /indonesianfarmorg1 {	
+		proxy_pass "http://localhost:8081/";
+	}
+	location /registerenrolluserorg1 {
+		proxy_pass "http://localhost:8081/api/registerenrolluserorg1";
+	}
+	location /generaterubbercert {
+		proxy_pass "http://localhost:8081/api/generaterubbercert";
+	}
+	location /querygeneratedrubbercert {
+                proxy_pass "http://localhost:8081/api/querygeneratedrubbercert";
+        }
+	location /transferrubbercert {
+                proxy_pass "http://localhost:8081/api/transferrubbercert";
+        }
+
+	location /rubbershipperorg3 {
+		proxy_pass "http://localhost:8083/";
+	}
+	location /registerenrolluserorg3 {
+                proxy_pass "http://localhost:8083/api/registerenrolluserorg3";
+        }
+        location /generateshippingbill {
+                proxy_pass "http://localhost:8083/api/generateshippingbill";
+        }
+        location /querygeneratedshippingbill {
+                proxy_pass "http://localhost:8083/api/querygeneratedshippingbill";
+        }
+        location /transferrubbercertandshippingbill {
+                proxy_pass "http://localhost:8083/api/transferrubbercertandshippingbill";
+        }
+
+	location /goodscustomorg4 {
+                proxy_pass "http://localhost:8084/";
+        }
+        location /registerenrolluserorg4 {
+                proxy_pass "http://localhost:8084/api/registerenrolluserorg4";
+        }
+        location /generateapprovalcert {
+                proxy_pass "http://localhost:8084/api/generateapprovalcert";
+        }
+        location /querygeneratedapprovalcert {
+                proxy_pass "http://localhost:8084/api/querygeneratedapprovalcert";
+        }
+        location /transferrubbercertandshippingbillandapprovalcert {
+                proxy_pass "http://localhost:8084/api/transferrubbercertandshippingbillandapprovalcert";
+        }
+
+	location /usclientorg2 {
+                proxy_pass "http://localhost:8082/";
+        }
+        location /registerenrolluserorg2 {
+                proxy_pass "http://localhost:8082/api/registerenrolluserorg2";
+        }
+	location /getalldocs {
+		proxy_pass "http://localhost:8082/api/getalldocs";
+	}
+
+	location /couchdborg1 {
+		proxy_pass "http://127.0.0.1:5984/_utils";
+	}
+}
