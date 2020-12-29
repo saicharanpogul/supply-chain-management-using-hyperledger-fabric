@@ -78,14 +78,14 @@ app.post('/api/generaterubbercert/', async function (req, res) {
         const network = await gateway.getNetwork('supplychain-channel')
 
         // Get the contract from the network.
-        const contact = network.getContract('supplychain')
+        const contract = network.getContract('supplychain')
 
         // Submit the specified transaction
         // GenerateRubberCert transaction - requires 8 arguments 
         // ex: {'GenerateRubberCert' ,'rubber1', 'natural', 'shore 00 soft', '25', 'indonesian farm', '10000', 'us client', '20-12-2020'}
         // rubberBatchNumber string, rubberType string, hardness string, tensileStrength int, rubberCertHolder string, weight int, buyer string, date string
 
-        await contact.submitTransaction(
+        await contract.submitTransaction(
             'GenerateRubberCert', 
             req.body.rubberBatchNumber,
             req.body.rubberType,
@@ -149,12 +149,12 @@ app.get('/api/querygeneratedrubbercert/', async function (req, res) {
         const network = await gateway.getNetwork('supplychain-channel')
 
         // Get the contract from the network.
-        const contact = network.getContract('supplychain')
+        const contract = network.getContract('supplychain')
 
         // Evaluate the specified transaction
         // QueryGeneratedRubberCert has 1 argument : rubberBatchNumber string
         // ex: {'QueryGeneratedRubberCert', 'rubber1'}
-        const result = await contact.evaluateTransaction('QueryGeneratedRubberCert', req.body.rubberBatchNumber)
+        const result = await contract.evaluateTransaction('QueryGeneratedRubberCert', req.body.rubberBatchNumber)
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`)
         res.status(200).json({ 
             result: JSON.parse(result.toString()),
@@ -209,12 +209,12 @@ app.put('/api/transferrubbercert/', async function (req, res) {
         const network = await gateway.getNetwork('supplychain-channel')
 
         // Get the contract from the network.
-        const contact = network.getContract('supplychain')
+        const contract = network.getContract('supplychain')
 
         // Evaluate the specified transaction
         // TransferRubberCert has 2 argument : rubberBatchNumber string, newRubberCertHolder string
         // ex: {'TransferRubberCert', 'rubber1', 'rubber shipper'}
-        const result = await contact.submitTransaction('TransferRubberCert', req.body.rubberBatchNumber, req.body.newRubberCertHolder)
+        const result = await contract.submitTransaction('TransferRubberCert', req.body.rubberBatchNumber, req.body.newRubberCertHolder)
         console.log('Transaction has been submitted')
         res.status(202).json({
             result: 'Transaction has been submitted',

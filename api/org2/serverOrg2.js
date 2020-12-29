@@ -77,12 +77,12 @@ app.get('/api/getalldocs/', async function (req, res) {
         const network = await gateway.getNetwork('supplychain-channel')
 
         // Get the contract from the network.
-        const contact = network.getContract('supplychain')
+        const contract = network.getContract('supplychain')
 
         // Evaluate the specified transaction
         // GetAllDocs has 1 argument : rubberBatchNumber string, billNumber string, approvalCertNumber string
         // ex: {'GetAllDocs', 'rubber1', 'bill1', 'approval1'}
-        const result = await contact.evaluateTransaction(
+        const result = await contract.evaluateTransaction(
             'GetAllDocs', 
             req.body.rubberBatchNumber, 
             req.body.billNumber,

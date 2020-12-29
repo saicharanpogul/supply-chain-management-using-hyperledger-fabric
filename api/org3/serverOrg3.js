@@ -78,13 +78,13 @@ app.post('/api/generateshippingbill/', async function (req, res) {
         const network = await gateway.getNetwork('supplychain-channel')
 
         // Get the contract from the network.
-        const contact = network.getContract('supplychain')
+        const contract = network.getContract('supplychain')
 
         // Submit the specified transaction
         // GenerateShippingBill has 5 arguments :rubberBatchNumber string, billNumber string, shippingCost int, address string, estimatedDeliveryDate string
         // ex: {'GenerateShippingBill' ,'rubber1', 'bill1', '1000', 'NY, USA', '31-12-2020'}
 
-        await contact.submitTransaction(
+        await contract.submitTransaction(
             'GenerateShippingBill', 
             req.body.rubberBatchNumber,
             req.body.billNumber,
@@ -145,12 +145,12 @@ app.get('/api/querygeneratedshippingbill/', async function (req, res) {
         const network = await gateway.getNetwork('supplychain-channel')
 
         // Get the contract from the network.
-        const contact = network.getContract('supplychain')
+        const contract = network.getContract('supplychain')
 
         // Evaluate the specified transaction
         // QueryGeneratedShippingBill has 2 argument : rubberBatchNumber string, billNumber string
         // ex: {'QueryGeneratedShippingBill', 'rubber1', 'bill1'}
-        const result = await contact.evaluateTransaction('QueryGeneratedShippingBill', req.body.rubberBatchNumber, req.body.billNumber)
+        const result = await contract.evaluateTransaction('QueryGeneratedShippingBill', req.body.rubberBatchNumber, req.body.billNumber)
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`)
         res.status(200).json({
             result: JSON.parse(result.toString()),
@@ -204,12 +204,12 @@ app.put('/api/transferrubbercertandshippingbill/', async function (req, res) {
         const network = await gateway.getNetwork('supplychain-channel')
 
         // Get the contract from the network.
-        const contact = network.getContract('supplychain')
+        const contract = network.getContract('supplychain')
 
         // Evaluate the specified transaction
         // TransferRubberCertAndShippingBill has 3 argument : rubberBatchNumber string, billNumber string, newBillHolder string
         // ex: {'TransferRubberCertAndShippingBill', 'rubber1', 'bill1', 'goods custom'}
-        const result = await contact.submitTransaction('TransferRubberCertAndShippingBill', req.body.rubberBatchNumber, req.body.billNumber, req.body.newBillHolder)
+        const result = await contract.submitTransaction('TransferRubberCertAndShippingBill', req.body.rubberBatchNumber, req.body.billNumber, req.body.newBillHolder)
         console.log('Transaction has been submitted')
         res.status(202).json({
             result: 'Transaction has been submitted',
