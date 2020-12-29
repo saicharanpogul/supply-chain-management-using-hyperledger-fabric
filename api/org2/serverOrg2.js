@@ -1,6 +1,6 @@
 'use strict'
 
-const { registerEnroll } = require('./registerEnrollClientUserOrg4')
+const { registerEnroll } = require('./registerEnrollClientUserOrg2')
 let express = require('express')
 let bodyParser = require('body-parser')
 

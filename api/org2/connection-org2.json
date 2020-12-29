@@ -31,7 +31,7 @@
                 "hostnameOverride": "peer0.usclientorg2.supplychain.com"
             },
             "tlsCACerts": {
-                "path": "../supplychain-network/organizations/peerOrganizations/usclientorg2.supplychain.com/tlsca/tlsca.usclientorg2.supplychain.com-cert.pem"
+                "path": "../../supplychain-network/organizations/peerOrganizations/usclientorg2.supplychain.com/tlsca/tlsca.usclientorg2.supplychain.com-cert.pem"
             }
         },
         "peer1.usclientorg2.supplychain.com":{
@@ -41,7 +41,7 @@
                 "hostnameOverride": "peer1.usclientorg2.supplychain.com"
             },
             "tlsCACerts": {
-                "path": "../supplychain-network/organizations/peerOrganizations/usclientorg2.supplychain.com/tlsca/tlsca.usclientorg2.supplychain.com-cert.pem"
+                "path": "../../supplychain-network/organizations/peerOrganizations/usclientorg2.supplychain.com/tlsca/tlsca.usclientorg2.supplychain.com-cert.pem"
             }
         }
     },
@@ -53,7 +53,7 @@
                 "verify": false
             },
             "tlsCACerts": {
-                "path": "../supplychain-network/organizations/peerOrganizations/usclientorg2.supplychain.com/ca/ca.usclientorg2.supplychain.com-cert.pem"
+                "path": "../../supplychain-network/organizations/peerOrganizations/usclientorg2.supplychain.com/ca/ca.usclientorg2.supplychain.com-cert.pem"
             }
         }
     }

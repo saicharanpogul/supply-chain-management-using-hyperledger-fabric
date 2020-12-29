@@ -81,7 +81,7 @@ app.post('/api/generateapprovalcert/', async function (req, res) {
 
         // Submit the specified transaction
         // GenerateApprovalCert has 6 arguments : rubberBatchNumber string, billNumber string, approvalCertNumber string, status string, date string, approvalCertHolder string
-        // ex: {'GenerateApprovalCert' ,'rubber1', 'bill1', 'approval1', 'approve', '1-1-2021', 'us client'}
+        // ex: {'GenerateApprovalCert' ,'rubber1', 'bill1', 'approval1', 'approve', '1-1-2021', 'goods custom'}
 
         await contact.submitTransaction(
             'GenerateApprovalCert', 
@@ -209,7 +209,7 @@ app.put('/api/transferrubbercertandshippingbillandapprovalcert/', async function
         // Evaluate the specified transaction
         // TransferRubberCertAndShippingBillAndApprovalCert has 4 argument : rubberBatchNumber string, billNumber string, approvalCertNumber string, newApprovalHolder string
         // ex: {'TransferRubberCertAndShippingBillAndApprovalCert', 'rubber1', 'bill1', 'approval1', 'us client'}
-        const result = await contact.submitTransaction('TransferRubberCertAndShippingBillAndApprovalCert', req.body.rubberBatchNumber, req.body.billNumber, req.body.approvalCertNumber, req.body.newRubberCertHolder)
+        const result = await contact.submitTransaction('TransferRubberCertAndShippingBillAndApprovalCert', req.body.rubberBatchNumber, req.body.billNumber, req.body.approvalCertNumber, req.body.newApprovalHolder)
         console.log('Transaction has been submitted')
         res.status(202).json({
             result: 'Transaction has been submitted',
