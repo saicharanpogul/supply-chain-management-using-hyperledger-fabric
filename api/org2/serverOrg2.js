@@ -21,7 +21,7 @@ app.get('/', async function (req, res) {
     }
 })
 
-app.post('/api/registerenrolluserorg4/', async function (req, res) {
+app.post('/api/registerenrolluserorg2/', async function (req, res) {
 
     try {
         let err = await registerEnroll(req.body.username)
@@ -84,7 +84,7 @@ app.get('/api/getalldocs/', async function (req, res) {
         // ex: {'GetAllDocs', 'rubber1', 'bill1', 'approval1'}
         const result = await contact.evaluateTransaction(
             'GetAllDocs', 
-            req.params.rubberBatchNumber, 
+            req.body.rubberBatchNumber, 
             req.body.billNumber,
             req.body.approvalCertNumber
             )
