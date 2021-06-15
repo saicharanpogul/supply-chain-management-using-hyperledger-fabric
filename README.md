@@ -52,9 +52,7 @@ _Before executing script files please provide necessary permissions to the scrip
 > **Note:** Before running Express Apps of 4 organizations, first execute `./enrollAdminOrg($).js` which will enroll node clients in the fabric network and stores the ID related files in respective `./walletOrg($)/` wallets and `./connection-org($)/` connection profiles is used for mapping all crypto material of respective fabric components.
 
 **The Fabric network is also deployed to Azure, APIs can be directly tested in Postman Client(Follow the example input's conventions)**
-**A basic CLI based client is given in the repo `./cli-fabric-client/` developed using Go Lang(it is a experimental code and APIs of just Org1 are functional) the program registers and enroll users of org1 and generates rubber certificate and query it and generate a very bad :negative_squared_cross_mark: looking  certificate. It will be improved soon including all organizations APIs and a Android Application is in progress :warning: and a link for basic UI mockups are given bellow.**
-
-[_Figma Prototype_](https://www.figma.com/proto/doHk47bMMu1HYgLmMlJdzD/SupplychainProject?node-id=1%3A2&viewport=235%2C426%2C0.10875143855810165&scaling=scale-down):iphone:
+**A basic CLI based client is given in the repo `./cli-fabric-client/` developed using Go Lang(it is a experimental code and APIs of just Org1 are functional) the program registers and enroll users of org1 and generates rubber certificate and query it and generate a very bad :negative_squared_cross_mark: looking  certificate. It will be improved soon including all organizations APIs.**
 
 ## Fabric Client APIs (Node SDK) 
 ### Postman Collection Link: 
